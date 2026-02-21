@@ -19,7 +19,7 @@ A collection of small, self-contained automations — each one solving a real pr
 
 | #  | Name | What It Does | Status |
 |----|------|--------------|--------|
-| 1  | [ai-news-digest](./ai-news-digest/) | Daily email with concise AI news from the last 24h | Planned |
+| 1  | [ai-news-digest](./ai-news-digest/) | Daily email with concise AI news from the last 24h | Shipped |
 | 2  | [weekly-learning](./weekly-learning/) | Saturday deep-dive email on a random topic | Planned |
 | 3  | [hiring-tracker](./hiring-tracker/) | Weekly pulse on tech companies scaling or cutting | Planned |
 | 4  | [job-alerts](./job-alerts/) | Daily filtered job openings delivered to inbox | Planned |

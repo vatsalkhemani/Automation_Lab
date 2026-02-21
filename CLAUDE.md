@@ -35,7 +35,7 @@ Product manager who codes. Comfortable with Python, has built and shipped full-s
 
 | # | Automation        | Status |
 |---|-------------------|--------|
-| 1 | ai-news-digest    | idea   |
+| 1 | ai-news-digest    | shipped |
 | 2 | weekly-learning   | idea   |
 | 3 | hiring-tracker    | idea   |
 | 4 | job-alerts        | idea   |

@@ -12,7 +12,7 @@ All automations, in priority order.
 
 ## Automations
 
-### 1. ai-news-digest — `Idea`
+### 1. ai-news-digest — `Shipped`
 Daily email with a concise summary of AI news from the last 24 hours.
 - **Schedule:** Daily (morning)
 - **Likely tools:** Python, news/RSS APIs, LLM API for summarization, email provider
@@ -44,4 +44,4 @@ Automated personalized outreach messages on LinkedIn.
 
 ---
 
-*Updated: 2026-02-20*
+*Updated: 2026-02-21*
