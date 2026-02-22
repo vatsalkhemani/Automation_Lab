@@ -77,7 +77,8 @@ def main():
             print(f"Source:   {story.get('source')}")
             print(f"Category: {story.get('category')}")
             print(f"URL:      {story.get('url')}")
-            print(f"Summary:  {story.get('summary')}")
+            for bullet in story.get("takeaways", []):
+                print(f"  - {bullet}")
     else:
         logger.info("Sending email...")
         success = send_digest(digest, today)

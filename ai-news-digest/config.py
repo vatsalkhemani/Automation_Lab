@@ -12,11 +12,13 @@ EMAIL_RECIPIENT = os.environ.get("EMAIL_RECIPIENT", "")
 NEWSAPI_BASE_URL = "https://newsapi.org/v2/everything"
 NEWSAPI_QUERY = (
     '"artificial intelligence" OR "machine learning" OR "large language model" '
-    'OR "generative AI" OR OpenAI OR Anthropic OR "Google Gemini" OR GPT OR LLM'
+    'OR "generative AI" OR OpenAI OR Anthropic OR Claude OR "Google Gemini" '
+    'OR GPT OR LLM OR ChatGPT OR Perplexity OR Mistral OR "AI agent" '
+    'OR "AI startup" OR Midjourney OR "Stable Diffusion" OR Copilot'
 )
 NEWSAPI_LANGUAGE = "en"
 NEWSAPI_SORT_BY = "publishedAt"
-NEWSAPI_PAGE_SIZE = 50
+NEWSAPI_PAGE_SIZE = 80
 
 # --- RSS Feeds ---
 RSS_FEEDS = [
@@ -39,11 +41,11 @@ def get_time_window():
 
 
 # --- Gemini settings ---
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 # --- Email settings ---
 GMAIL_SMTP_SERVER = "smtp.gmail.com"
 GMAIL_SMTP_PORT = 465  # SSL
 
 # --- Digest settings ---
-MAX_ARTICLES_FOR_DIGEST = 20
+MAX_ARTICLES_FOR_DIGEST = 30

@@ -20,6 +20,7 @@ CATEGORY_ICONS = {
     "Policy": "&#x2696;&#xFE0F;",
     "Open Source": "&#x1F310;",
     "Analysis": "&#x1F4CA;",
+    "Trending": "&#x1F525;",
     "Other": "&#x1F4F0;",
 }
 
@@ -30,6 +31,23 @@ def _build_html(digest: list[dict], date_str: str) -> str:
     for story in digest:
         category = story.get("category", "Other")
         icon = CATEGORY_ICONS.get(category, CATEGORY_ICONS["Other"])
+
+        # Build takeaway bullets
+        takeaways = story.get("takeaways", [])
+        if not takeaways:
+            # Backward compat: fall back to "summary" field if present
+            summary = story.get("summary", "")
+            takeaways = [summary] if summary else []
+
+        bullets_html = ""
+        for bullet in takeaways:
+            bullets_html += f"""
+                            <tr>
+                                <td style="padding: 2px 0; font-size: 13px; color: #444; line-height: 1.4;" valign="top">
+                                    <span style="color: #888; margin-right: 6px;">&#x2022;</span>{bullet}
+                                </td>
+                            </tr>"""
+
         stories_html += f"""
         <tr>
             <td style="padding: 16px 0; border-bottom: 1px solid #e0e0e0;">
@@ -37,12 +55,12 @@ def _build_html(digest: list[dict], date_str: str) -> str:
                     {icon} {category} &middot; {story.get("source", "")}
                 </div>
                 <a href="{story.get("url", "#")}"
-                   style="font-size: 16px; font-weight: 600; color: #1a1a1a; text-decoration: none;">
+                   style="font-size: 15px; font-weight: 600; color: #1a1a1a; text-decoration: none;">
                     {story.get("title", "Untitled")}
                 </a>
-                <p style="font-size: 14px; color: #333; line-height: 1.5; margin: 8px 0 0 0;">
-                    {story.get("summary", "")}
-                </p>
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin: 6px 0 0 8px;">
+                    {bullets_html}
+                </table>
             </td>
         </tr>"""
 
@@ -106,8 +124,9 @@ def send_digest(digest: list[dict], date_str: str) -> bool:
 
     plain_text = f"AI News Digest for {date_str}\n\n"
     for story in digest:
-        plain_text += f"- {story.get('title', 'Untitled')}\n"
-        plain_text += f"  {story.get('summary', '')}\n"
+        plain_text += f"[{story.get('category', 'Other')}] {story.get('title', 'Untitled')}\n"
+        for bullet in story.get("takeaways", []):
+            plain_text += f"  - {bullet}\n"
         plain_text += f"  {story.get('url', '')}\n\n"
 
     msg.attach(MIMEText(plain_text, "plain"))

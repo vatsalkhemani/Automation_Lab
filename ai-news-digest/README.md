@@ -1,6 +1,6 @@
 # ai-news-digest
 
-> Daily email with a concise summary of AI news from the last 24 hours.
+> Daily email with the top 10 AI stories, summarized as key takeaways.
 
 ## Status
 
@@ -8,33 +8,33 @@
 
 ## What It Does
 
-Every morning, this automation:
+Every morning at 9:00 AM IST, this automation:
 
-1. **Fetches** AI news from two sources:
-   - **NewsAPI** — searches recent articles by AI-related keywords
-   - **RSS feeds** — pulls from TechCrunch AI, The Verge AI, MIT Tech Review, Ars Technica, and VentureBeat AI
-2. **Deduplicates** overlapping articles (by URL and title similarity)
-3. **Summarizes** using Google Gemini — selects the top 8-12 stories, categorizes them, and writes concise summaries
-4. **Emails** a clean HTML digest via Gmail SMTP
+1. **Fetches** AI news from NewsAPI (80 articles) + 5 RSS feeds (TechCrunch, The Verge, MIT Tech Review, Ars Technica, VentureBeat)
+2. **Deduplicates** by URL normalization and fuzzy title matching
+3. **Curates** top 10 stories using Gemini 2.5 Flash — rewrites clickbait titles, categorizes each story, and extracts 3 key takeaways per story
+4. **Emails** a clean HTML digest with bullet-point takeaways via Gmail SMTP
 
-If any source fails, the pipeline continues with whatever is available. If Gemini fails, raw article descriptions are used as a fallback.
+Resilient by design: if a source fails, the rest continue. If Gemini fails, raw descriptions are used as fallback.
 
 ## How It Runs
 
-- **Trigger:** GitHub Actions daily cron at 11:00 UTC (6:00 AM ET)
-- **Manual trigger:** Available via `workflow_dispatch` in the Actions tab
-- **Entry point:** `python main.py`
-- **Dry run:** `python main.py --dry-run` (prints digest to stdout, no email sent)
+| | |
+|---|---|
+| **Schedule** | Daily at 03:30 UTC (9:00 AM IST) |
+| **Manual trigger** | `workflow_dispatch` in GitHub Actions tab |
+| **Entry point** | `python main.py` |
+| **Dry run** | `python main.py --dry-run` |
 
 ## Architecture
 
 ```
-main.py           — orchestrator
-├── config.py     — env vars, constants, RSS feed URLs
+main.py           — orchestrator, --dry-run support
+├── config.py     — env vars, RSS URLs, NewsAPI query, constants
 ├── fetchers.py   — fetch_newsapi() + fetch_rss()
 ├── dedup.py      — URL normalization + fuzzy title matching
-├── summarizer.py — Gemini summarization with fallback
-└── emailer.py    — HTML email via Gmail SMTP
+├── summarizer.py — Gemini 2.5 Flash with JSON auto-repair + fallback
+└── emailer.py    — HTML email with bullet takeaways via Gmail SMTP
 ```
 
 ## Secrets Required
@@ -43,13 +43,11 @@ main.py           — orchestrator
 |--------|-------------|-----------------|
 | `NEWSAPI_KEY` | NewsAPI.org API key | [newsapi.org/register](https://newsapi.org/register) |
 | `GEMINI_API_KEY` | Google Gemini API key | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
-| `GMAIL_ADDRESS` | Gmail address to send from | Your Gmail (must have 2FA enabled) |
-| `GMAIL_APP_PASSWORD` | Gmail App Password | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) |
+| `GMAIL_ADDRESS` | Gmail address to send from | Your Gmail (2FA required) |
+| `GMAIL_APP_PASSWORD` | Gmail App Password (not your regular password) | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) |
 | `EMAIL_RECIPIENT` | Email address to receive the digest | Any email address |
 
-For GitHub Actions: add these in **Settings > Secrets and variables > Actions**.
-
-For local development: copy `.env.example` to `.env` and fill in values.
+Add these in **Settings > Secrets and variables > Actions** for GitHub Actions, or in a local `.env` file.
 
 ## Local Development
 
@@ -57,50 +55,42 @@ For local development: copy `.env.example` to `.env` and fill in values.
 cd ai-news-digest
 pip install -r requirements.txt
 cp .env.example .env
-# Fill in .env with your API keys
+# Fill in .env with your values
 
-# Load env vars (Linux/Mac)
+# Load env vars
 export $(grep -v '^#' .env | xargs)
 
-# Load env vars (Windows PowerShell)
-# Get-Content .env | Where-Object { $_ -notmatch '^#' -and $_ -match '=' } | ForEach-Object { $k,$v = $_ -split '=',2; [System.Environment]::SetEnvironmentVariable($k,$v) }
-
-# Dry run (fetch + summarize, print to stdout)
+# Dry run (prints to stdout, no email)
 python main.py --dry-run
 
 # Full run (sends email)
 python main.py
 ```
 
-## Configuration
-
-Key settings in `config.py`:
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `LOOKBACK_HOURS` | 28 | How far back to look for articles (slightly >24h for safety) |
-| `NEWSAPI_PAGE_SIZE` | 50 | Max articles to fetch from NewsAPI per request |
-| `MAX_ARTICLES_FOR_DIGEST` | 20 | Cap on articles sent to Gemini for summarization |
-| `GEMINI_MODEL` | `gemini-2.0-flash` | Gemini model for summarization |
-| `RSS_FEEDS` | 5 feeds | List of RSS feed URLs to scrape |
-
 ## Example Output
 
-The email includes a dark header, categorized stories with icons, and a clean layout:
+Each story has a factual title, category tag, and 3 bullet-point takeaways:
 
 ```
-AI News Digest — February 21, 2026 · 10 stories
+AI News Digest -- February 22, 2026 · 10 stories
 
-🚀 Product Launch · TechCrunch
-OpenAI Launches GPT-5 with Real-Time Reasoning
-OpenAI released GPT-5 today, featuring real-time chain-of-thought
-reasoning and multimodal capabilities. The model is available via
-API starting at $15/1M tokens.
+🚀 Product Launch · The Hacker News
+Anthropic Launches Claude Code Security for AI-Powered Vulnerability Scanning
+  • Anthropic introduced Claude Code Security for its Claude Code offering.
+  • The new feature scans software codebases for vulnerabilities.
+  • It also suggests potential patches to address identified security flaws.
 
-🔬 Research · MIT Tech Review
-DeepMind Achieves New Milestone in Protein Folding
-Google DeepMind published results showing AlphaFold 3 can now
-predict protein-drug interactions with 95% accuracy...
+⚖️ Policy · TechCrunch
+OpenAI Debated Calling Police About Suspected Canadian Shooter's Chats
+  • OpenAI employees debated reporting a user's violent ChatGPT conversations.
+  • The user later became a suspect in a Canadian school shooting.
+  • OpenAI's internal tools flagged the chats for descriptions of gun violence.
+
+💼 Business · CNBC
+Tech Giants Commit Billions to Indian AI as New Delhi Pushes for Superpower Status
+  • Major tech companies are investing billions in India's AI sector.
+  • This comes as India aims to become an AI superpower.
+  • Investments were highlighted at the India AI Impact Summit in New Delhi.
 ```
 
 ---

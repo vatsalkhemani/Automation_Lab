@@ -13,9 +13,9 @@ All automations, in priority order.
 ## Automations
 
 ### 1. ai-news-digest — `Shipped`
-Daily email with a concise summary of AI news from the last 24 hours.
-- **Schedule:** Daily (morning)
-- **Likely tools:** Python, news/RSS APIs, LLM API for summarization, email provider
+Top 10 AI stories with key takeaways, delivered daily by email.
+- **Schedule:** Daily at 9:00 AM IST
+- **Stack:** Python, NewsAPI + RSS feeds, Gemini 2.5 Flash, Gmail SMTP
 
 ### 2. weekly-learning — `Idea`
 Every Saturday, generates a deep-dive exploration of a random topic and delivers it by email.
@@ -44,4 +44,4 @@ Automated personalized outreach messages on LinkedIn.
 
 ---
 
-*Updated: 2026-02-21*
+*Updated: 2026-02-22*
