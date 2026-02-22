@@ -69,6 +69,9 @@ python main.py
 
 ## Example Output
 
+<img width="418" height="1171" alt="image" src="https://github.com/user-attachments/assets/9ad7be3d-b9ab-4b93-8911-39ad04d9da17" />
+
+
 Each story has a factual title, category tag, and 3 bullet-point takeaways:
 
 ```
