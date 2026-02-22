@@ -1,12 +1,14 @@
 # ai-news-digest
 
-> Daily email with the top 10 AI stories, summarized as key takeaways.
+A fully automated pipeline that reads hundreds of AI articles every morning, picks the 10 that matter, and delivers a clean summary to your inbox — so you can stay current in 2 minutes instead of 2 hours.
+
+<img width="418" height="1171" alt="Example digest email" src="https://github.com/user-attachments/assets/9ad7be3d-b9ab-4b93-8911-39ad04d9da17" />
 
 ## Status
 
 **Shipped**
 
-## What It Does
+## How It Works
 
 Every morning at 9:00 AM IST, this automation:
 
@@ -65,35 +67,6 @@ python main.py --dry-run
 
 # Full run (sends email)
 python main.py
-```
-
-## Example Output
-
-<img width="418" height="1171" alt="image" src="https://github.com/user-attachments/assets/9ad7be3d-b9ab-4b93-8911-39ad04d9da17" />
-
-
-Each story has a factual title, category tag, and 3 bullet-point takeaways:
-
-```
-AI News Digest -- February 22, 2026 · 10 stories
-
-🚀 Product Launch · The Hacker News
-Anthropic Launches Claude Code Security for AI-Powered Vulnerability Scanning
-  • Anthropic introduced Claude Code Security for its Claude Code offering.
-  • The new feature scans software codebases for vulnerabilities.
-  • It also suggests potential patches to address identified security flaws.
-
-⚖️ Policy · TechCrunch
-OpenAI Debated Calling Police About Suspected Canadian Shooter's Chats
-  • OpenAI employees debated reporting a user's violent ChatGPT conversations.
-  • The user later became a suspect in a Canadian school shooting.
-  • OpenAI's internal tools flagged the chats for descriptions of gun violence.
-
-💼 Business · CNBC
-Tech Giants Commit Billions to Indian AI as New Delhi Pushes for Superpower Status
-  • Major tech companies are investing billions in India's AI sector.
-  • This comes as India aims to become an AI superpower.
-  • Investments were highlighted at the India AI Impact Summit in New Delhi.
 ```
 
 ---
