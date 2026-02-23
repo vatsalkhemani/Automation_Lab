@@ -107,9 +107,13 @@ jobs:
 
 `working-directory` is set at the job level so all `run` steps execute inside the automation folder.
 
+## Git
+
+- **Never push to git.** The owner handles all commits and pushes. Claude should only write code and edit files.
+- Commit messages: imperative mood, concise. Example: "Add ai-news-digest automation"
+
 ## Conventions
 
-- Commit messages: imperative mood, concise. Example: "Add ai-news-digest automation"
 - When building an automation, create `.env.example`, workflow YAML, scripts, and README in a single effort before marking it shipped.
 - Each automation README includes: what it does, how it runs, what secrets it needs, and example output.
 - Update `ROADMAP.md` and the automation list in this file when status changes.

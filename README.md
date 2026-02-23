@@ -17,14 +17,17 @@ A collection of small, self-contained automations — each one solving a real pr
 
 ## Automations
 
-| #  | Name | What It Does | Status |
-|----|------|--------------|--------|
-| 1  | [ai-news-digest](./ai-news-digest/) | Daily email with concise AI news from the last 24h | Shipped |
-| 2  | [weekly-learning](./weekly-learning/) | Saturday deep-dive email on a random topic | Planned |
-| 3  | [hiring-tracker](./hiring-tracker/) | Weekly pulse on tech companies scaling or cutting | Planned |
-| 4  | [job-alerts](./job-alerts/) | Daily filtered job openings delivered to inbox | Planned |
-| 5  | [gmail-declutter](./gmail-declutter/) | Weekly automated inbox cleanup | Planned |
-| 6  | [linkedin-outreach](./linkedin-outreach/) | Automated personalized LinkedIn outreach | Planned |
+| #  | Name | What It Does | Schedule |
+|----|------|--------------|----------|
+| 1  | [ai-news-digest](./ai-news-digest/) | Daily email with the top 10 AI stories and key takeaways | Every morning |
+| 2  | [weekly-learning](./weekly-learning/) | Deep-dive article on a random topic from science to philosophy | Every Saturday |
+
+### Coming Soon
+
+- **hiring-tracker** — Weekly pulse on tech companies scaling or cutting
+- **job-alerts** — Daily filtered job openings delivered to inbox
+- **gmail-declutter** — Weekly automated inbox cleanup
+- **linkedin-outreach** — Automated personalized LinkedIn outreach
 
 ## How to Fork an Automation
 
