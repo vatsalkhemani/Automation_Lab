@@ -1,0 +1,34 @@
+name: Weekly Learning
+
+on:
+  schedule:
+    # Run every Saturday at 03:30 UTC (9:00 AM IST)
+    - cron: "30 3 * * 6"
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  send-weekly-learning:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: weekly-learning
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Weekly Learning
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+        run: python main.py

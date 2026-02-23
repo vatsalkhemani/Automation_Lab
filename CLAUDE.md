@@ -52,7 +52,7 @@ There is no top-level build, lint, or test command. Each automation is independe
 | # | Automation        | Status  |
 |---|-------------------|---------|
 | 1 | ai-news-digest    | shipped |
-| 2 | weekly-learning   | idea    |
+| 2 | weekly-learning   | shipped |
 | 3 | hiring-tracker    | idea    |
 | 4 | job-alerts        | idea    |
 | 5 | gmail-declutter   | idea    |

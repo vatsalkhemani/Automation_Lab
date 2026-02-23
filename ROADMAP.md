@@ -17,10 +17,10 @@ Top 10 AI stories with key takeaways, delivered daily by email.
 - **Schedule:** Daily at 9:00 AM IST
 - **Stack:** Python, NewsAPI + RSS feeds, Gemini 2.5 Flash, Gmail SMTP
 
-### 2. weekly-learning — `Idea`
+### 2. weekly-learning — `Shipped`
 Every Saturday, generates a deep-dive exploration of a random topic and delivers it by email.
-- **Schedule:** Weekly (Saturday)
-- **Likely tools:** Python, LLM API, email provider
+- **Schedule:** Every Saturday at 9:00 AM IST
+- **Stack:** Python, Gemini 2.5 Flash, Gmail SMTP
 
 ### 3. hiring-tracker — `Idea`
 Weekly pulse on which tech companies are scaling up or cutting back.
@@ -44,4 +44,4 @@ Automated personalized outreach messages on LinkedIn.
 
 ---
 
-*Updated: 2026-02-22*
+*Updated: 2026-02-23*
