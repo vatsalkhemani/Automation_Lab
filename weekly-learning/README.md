@@ -1,41 +1,70 @@
 # weekly-learning
 
-> Every Saturday, a deep-dive exploration of a random topic delivered by email.
+Every Saturday, this automation picks a random topic — from philosophy to geography to psychology — generates an ~800-word deep-dive article using Gemini, and delivers it to your inbox as a morning read.
 
-## What It Does
+## Status
 
-Picks a random category (science, tech, history, geography, philosophy, math, economics, psychology), asks Gemini to choose a specific non-obvious topic within it, generates an ~800-word deep-dive article, and emails it as a Saturday morning read.
+**Shipped**
+
+## How It Works
+
+Every Saturday at 9:00 AM IST, this automation:
+
+1. **Picks** a random category from 8 knowledge domains (science, tech, history, geography, philosophy, math, economics, psychology)
+2. **Generates** a deep-dive article using Gemini 2.5 Flash — the LLM picks a specific non-obvious topic within the category and writes an engaging exploration
+3. **Emails** a clean HTML article with sections, a surprising fact callout, and further reading suggestions via Gmail SMTP
 
 Each email includes:
-- A hook paragraph to grab attention
+- A hook paragraph that grabs attention
 - 3-4 sections exploring the topic in depth
-- A surprising fact callout
-- 3 suggestions for further reading
+- A "Surprising Fact" callout box
+- 3 suggestions for going deeper
 
 ## How It Runs
 
-- **Schedule:** Every Saturday at 9:00 AM IST (03:30 UTC) via GitHub Actions
-- **Manual trigger:** `workflow_dispatch` in GitHub Actions UI
-- **Local:** `python main.py` (sends email) or `python main.py --dry-run` (prints to stdout)
+| | |
+|---|---|
+| **Schedule** | Every Saturday at 03:30 UTC (9:00 AM IST) |
+| **Manual trigger** | `workflow_dispatch` in GitHub Actions tab |
+| **Entry point** | `python main.py` |
+| **Dry run** | `python main.py --dry-run` |
 
-## Secrets Needed
+## Architecture
+
+```
+main.py           — orchestrator, --dry-run support
+├── config.py     — env vars, topic categories, Gemini + email settings
+├── generator.py  — Gemini 2.5 Flash content generation with JSON auto-repair
+└── emailer.py    — HTML email with sections, callouts via Gmail SMTP
+```
+
+## Secrets Required
 
 | Secret | Description | Where to get it |
 |--------|-------------|-----------------|
 | `GEMINI_API_KEY` | Google Gemini API key | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
-| `GMAIL_ADDRESS` | Gmail address to send from | Your Gmail (must have 2FA enabled) |
-| `GMAIL_APP_PASSWORD` | Gmail App Password | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) |
+| `GMAIL_ADDRESS` | Gmail address to send from | Your Gmail (2FA required) |
+| `GMAIL_APP_PASSWORD` | Gmail App Password (not your regular password) | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) |
 | `EMAIL_RECIPIENT` | Email address to receive the article | Any email address |
 
-Add these as **GitHub Secrets** (Settings > Secrets and variables > Actions) for scheduled runs, or copy `.env.example` to `.env` for local runs.
+Add these in **Settings > Secrets and variables > Actions** for GitHub Actions, or in a local `.env` file.
 
-## How to Run Locally
+## Local Development
 
 ```bash
 cd weekly-learning
 pip install -r requirements.txt
-cp .env.example .env   # then fill in your values
+cp .env.example .env
+# Fill in .env with your values
+
+# Load env vars
+export $(grep -v '^#' .env | xargs)
+
+# Dry run (prints to stdout, no email)
 python main.py --dry-run
+
+# Full run (sends email)
+python main.py
 ```
 
 ## Example Output
@@ -69,19 +98,6 @@ Go Deeper:
   -> "Bird vs. Gun: Australia's Strangest Conflict" — Atlas Obscura
   -> "Pest or Patriot? The Emu in Australian History" — ABC Australia
 ```
-
-## Topic Categories
-
-The script randomly picks from these categories each week:
-
-- Science & Nature
-- Technology & Computing
-- History & Civilization
-- Geography & Cultures
-- Philosophy & Ideas
-- Mathematics & Logic
-- Economics & Systems
-- Psychology & Human Behavior
 
 ---
 
