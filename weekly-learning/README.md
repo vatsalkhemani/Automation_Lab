@@ -3,7 +3,10 @@
 Every Saturday, this automation picks a random topic — from philosophy to geography to psychology — generates an ~800-word deep-dive article using Gemini, and delivers it to your inbox as a morning read.
 
 <!-- Replace the src below with your own screenshot uploaded to GitHub (drag into an issue or PR to get the URL) -->
-<img width="418" alt="Example weekly learning email" src="https://github.com/user-attachments/assets/REPLACE_WITH_YOUR_SCREENSHOT" />
+<img width="250" height="400" alt="image" src="https://github.com/user-attachments/assets/0f7dc5fd-2377-4698-8b70-7c814874d277" />
+<img width="250" height="400" alt="image" src="https://github.com/user-attachments/assets/26e21db0-a2d3-41d9-ac4f-1bfac75f8144" />
+
+
 
 ## Status
 
