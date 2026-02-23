@@ -3,7 +3,9 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "WebFetch(domain:newsapi.org)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(set:*)",
+      "Bash(source:*)"
     ]
   }
 }

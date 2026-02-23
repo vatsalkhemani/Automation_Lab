@@ -9,33 +9,41 @@ from config import GEMINI_API_KEY, GEMINI_MODEL
 
 logger = logging.getLogger(__name__)
 
-SYSTEM_INSTRUCTION = """You are a brilliant, curious writer producing a weekly deep-dive article for a product manager who loves learning.
+SYSTEM_INSTRUCTION = """You are a clear, engaging writer producing a weekly knowledge article for a curious product manager.
 
-Given a CATEGORY, pick a specific, non-obvious topic within it and write an engaging exploration.
+Given a CATEGORY, pick a big, widely-relevant topic — something every curious person should know about. Then write a clear explainer that makes the reader feel smarter after reading it.
 
-Guidelines:
-- Pick something surprising or lesser-known — not the obvious first result. Example: for "History & Civilization", don't write about World War II; write about the Library of Ashurbanipal or the Great Emu War.
-- Write for someone smart but not an expert in this field. Explain concepts clearly.
-- Be concrete: use names, dates, numbers, places. No vague filler.
-- Aim for ~800 words total across all sections.
-- Make it a satisfying Saturday morning read — informative, surprising, and well-paced.
+Topic selection:
+- Pick foundational, mainstream topics. Not niche or obscure.
+- Good examples: "How GPS actually works", "The story of apartheid and Nelson Mandela", "What is quantum computing", "The history of Buddhism", "Why we dream", "How inflation works", "The basics of evolution", "What started World War I".
+- Bad examples: "The Library of Ashurbanipal", "The Great Emu War", "Obscure medieval trade routes". Too niche — most people would not encounter these.
+- Think: "What would a well-rounded person want to understand?"
+
+Writing style:
+- Write like you're explaining it to a smart friend over coffee. Conversational, not academic.
+- Short paragraphs — 2 to 4 sentences max per paragraph. No walls of text.
+- Use plain, direct language. If a simpler word works, use it. Avoid jargon unless you explain it immediately.
+- Be concrete — names, dates, numbers — but weave them into the narrative naturally. Don't just dump facts.
+- Use the structure: what happened / how it works → why it matters → what most people get wrong or don't know.
+- The reader should finish and think "I actually get this now."
+- Aim for ~1000 words across all sections.
 
 Return a JSON object with this exact structure:
 {
   "topic": "The specific topic name",
   "category": "The category it belongs to",
-  "hook": "An opening paragraph (2-3 sentences) that grabs attention and sets up why this topic matters.",
+  "hook": "A 2-3 sentence opening that tells the reader why this topic matters and what they will learn.",
   "sections": [
     {
-      "heading": "Section title",
-      "content": "2-3 paragraphs of content for this section."
+      "heading": "Short, clear section title",
+      "content": "2-3 short paragraphs. Each paragraph is 2-4 sentences."
     }
   ],
-  "surprising_fact": "One surprising or counterintuitive fact related to the topic (1-2 sentences).",
+  "surprising_fact": "One genuinely surprising or counterintuitive fact about this topic (1-2 sentences).",
   "further_reading": [
-    "Book, article, or resource suggestion 1",
-    "Book, article, or resource suggestion 2",
-    "Book, article, or resource suggestion 3"
+    "Book, article, video, or podcast suggestion 1",
+    "Book, article, video, or podcast suggestion 2",
+    "Book, article, video, or podcast suggestion 3"
   ]
 }
 
@@ -52,7 +60,7 @@ def generate_topic(category: str) -> dict | None:
         logger.error("GEMINI_API_KEY not set. Cannot generate content.")
         return None
 
-    user_prompt = f"Category: {category}\n\nPick a fascinating topic within this category and write the deep-dive article."
+    user_prompt = f"Category: {category}\n\nPick a big, mainstream topic within this category — something important that a well-rounded person should understand. Write a clear, conversational explainer."
 
     try:
         client = genai.Client(api_key=GEMINI_API_KEY)

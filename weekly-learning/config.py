@@ -17,11 +17,14 @@ GMAIL_SMTP_PORT = 465  # SSL
 # The script picks a random category each week, then Gemini picks a specific topic within it.
 TOPIC_CATEGORIES = [
     "Science & Nature",
-    "Technology & Computing",
-    "History & Civilization",
+    "Technology & Innovation",
+    "History & World Events",
     "Geography & Cultures",
-    "Philosophy & Ideas",
+    "Philosophy & Big Questions",
     "Mathematics & Logic",
-    "Economics & Systems",
+    "Economics & Money",
     "Psychology & Human Behavior",
+    "Health & Medicine",
+    "Arts & Culture",
+    "Politics & Society",
 ]

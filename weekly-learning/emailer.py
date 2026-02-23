@@ -15,13 +15,16 @@ logger = logging.getLogger(__name__)
 
 CATEGORY_COLORS = {
     "Science & Nature": "#2e7d32",
-    "Technology & Computing": "#1565c0",
-    "History & Civilization": "#bf360c",
+    "Technology & Innovation": "#1565c0",
+    "History & World Events": "#bf360c",
     "Geography & Cultures": "#00838f",
-    "Philosophy & Ideas": "#6a1b9a",
+    "Philosophy & Big Questions": "#6a1b9a",
     "Mathematics & Logic": "#e65100",
-    "Economics & Systems": "#37474f",
+    "Economics & Money": "#37474f",
     "Psychology & Human Behavior": "#ad1457",
+    "Health & Medicine": "#00695c",
+    "Arts & Culture": "#4527a0",
+    "Politics & Society": "#c62828",
 }
 
 
@@ -37,7 +40,7 @@ def _build_html(article: dict, date_str: str) -> str:
         content = section.get("content", "")
         paragraphs = content.split("\n\n")
         content_html = "".join(
-            f'<p style="margin: 0 0 12px 0; font-size: 15px; color: #333; line-height: 1.7;">{p.strip()}</p>'
+            f'<p style="margin: 0 0 16px 0; font-size: 16px; color: #333; line-height: 1.8;">{p.strip()}</p>'
             for p in paragraphs
             if p.strip()
         )
@@ -99,7 +102,7 @@ def _build_html(article: dict, date_str: str) -> str:
                     <!-- Hook -->
                     <tr>
                         <td style="padding: 16px 32px 0 32px;">
-                            <p style="margin: 0; font-size: 16px; color: #555; line-height: 1.7; font-style: italic;">
+                            <p style="margin: 0; font-size: 17px; color: #555; line-height: 1.8; font-style: italic;">
                                 {article.get("hook", "")}
                             </p>
                         </td>
