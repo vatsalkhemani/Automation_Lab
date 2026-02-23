@@ -11,7 +11,7 @@ Learning new things outside your bubble takes effort. You *want* to read about p
 ## How It Works (End-to-End)
 
 ```
-  [8 Topic Categories]
+  [11 Topic Categories]
           |
     1. PICK random category
           |
@@ -24,27 +24,30 @@ Learning new things outside your bubble takes effort. You *want* to read about p
 
 ### Step 1: Pick a Category
 
-The script randomly selects one of 8 broad knowledge domains:
+The script randomly selects one of 11 broad knowledge domains:
 
 - Science & Nature
-- Technology & Computing
-- History & Civilization
+- Technology & Innovation
+- History & World Events
 - Geography & Cultures
-- Philosophy & Ideas
+- Philosophy & Big Questions
 - Mathematics & Logic
-- Economics & Systems
+- Economics & Money
 - Psychology & Human Behavior
+- Health & Medicine
+- Arts & Culture
+- Politics & Society
 
-This is a simple `random.choice()` — no weighting, no history tracking. With 8 categories and the LLM picking a different specific topic each time, repeats are extremely unlikely.
+This is a simple `random.choice()` — no weighting, no history tracking. With 11 categories and the LLM picking a different specific topic each time, repeats are extremely unlikely.
 
 ### Step 2: Generate the Article
 
 The selected category is sent to **Google Gemini 2.5 Flash** with a system prompt that instructs the LLM to:
 
-- **Pick a specific, non-obvious topic** within the category — not the first thing you'd Google. For "History & Civilization", don't write about World War II; write about the Library of Ashurbanipal or the Great Emu War.
-- **Write for a smart generalist** — clear explanations, no jargon assumed, but no dumbing down.
-- **Be concrete** — names, dates, numbers, places. No vague filler.
-- **Target ~800 words** — a satisfying 5-minute Saturday read.
+- **Pick a big, mainstream topic** within the category — something a well-rounded person should understand. For "History & World Events", write about the Renaissance or the Cold War, not the Library of Ashurbanipal.
+- **Write conversationally** — like explaining to a smart friend over coffee. Short paragraphs, plain language, no jargon without explanation.
+- **Be concrete** — names, dates, numbers woven into the narrative naturally.
+- **Target ~1000 words** — a satisfying 5-7 minute Saturday read that leaves you feeling you actually understand the topic.
 
 The LLM returns structured JSON with:
 
@@ -81,7 +84,7 @@ The article is rendered as a clean HTML email with:
 - **Inline CSS + table layout** — required for Gmail/Outlook compatibility
 - **Multipart format** — both HTML and plain-text versions
 
-The subject line includes the topic name: `Weekly Learning: The Great Emu War — February 22, 2026`
+The subject line includes the topic name: `Weekly Learning: The Renaissance: A Rebirth of Ideas — February 23, 2026`
 
 ---
 
@@ -115,7 +118,7 @@ Everything else is Python stdlib (`smtplib`, `email`, `json`, `re`, `random`).
 | **Curated topic list** | Full control over what you learn | Requires maintaining a list of 50+ topics; removes serendipity |
 | **Fully random (LLM picks everything)** | Maximum surprise | Could cluster in one domain; no guaranteed breadth |
 
-**Our choice: Random category + LLM picks topic.** The 8 categories guarantee breadth across domains. Within each category, the LLM is prompted to pick non-obvious topics, which keeps things surprising. No list to maintain.
+**Our choice: Random category + LLM picks topic.** The 11 categories guarantee breadth across domains. Within each category, the LLM is prompted to pick big, mainstream topics — things every curious person should know. No list to maintain.
 
 ### Single LLM call vs. two-step (pick topic, then write)
 
@@ -132,7 +135,7 @@ For ai-news-digest, temperature is 0.3 — we want deterministic, factual summar
 
 ### No topic history tracking
 
-We deliberately don't track previously generated topics. Tracking would require persistent storage (database, file commit, external service), which adds complexity to what should be a zero-infrastructure automation. With 8 categories and the LLM's tendency to pick different topics, real repeats are rare.
+We deliberately don't track previously generated topics. Tracking would require persistent storage (database, file commit, external service), which adds complexity to what should be a zero-infrastructure automation. With 11 categories and the LLM's tendency to pick different topics, real repeats are rare.
 
 ---
 
@@ -144,7 +147,7 @@ We deliberately don't track previously generated topics. Tracking would require 
 | Gemini returns bad JSON | No email sent | 2-stage JSON auto-repair (parse → fix trailing commas). If both fail, exits with error. |
 | Gemini writes a low-quality article | Mediocre email | The prompt is detailed and opinionated. Quality is consistently good in testing. Worst case, it's still interesting. |
 | Gmail rejects auth | No email sent | Script exits with code 1; GitHub Actions notifies you |
-| Topic repeats | Mild annoyance | Extremely unlikely with 8 categories × infinite topics. No mitigation needed. |
+| Topic repeats | Mild annoyance | Extremely unlikely with 11 categories × infinite topics. No mitigation needed. |
 
 ---
 

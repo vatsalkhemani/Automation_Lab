@@ -20,7 +20,7 @@ A collection of small, self-contained automations — each one solving a real pr
 | #  | Name | What It Does | Schedule |
 |----|------|--------------|----------|
 | 1  | [ai-news-digest](./ai-news-digest/) | Daily email with the top 10 AI stories and key takeaways | Every morning |
-| 2  | [weekly-learning](./weekly-learning/) | Deep-dive article on a random topic from science to philosophy | Every Saturday |
+| 2  | [weekly-learning](./weekly-learning/) | Conversational explainer on a mainstream topic — things every curious person should know | Every Saturday |
 
 ### Coming Soon
 
