@@ -22,7 +22,7 @@ A PM who actually codes AND ships AI at scale. Not an influencer. Not a commenta
 The differentiator: most LinkedIn AI voices are either pure engineers (deep tech, no product lens) or pure strategists (big ideas, never built anything). This voice sits at the intersection — hands in the code, eyes on the user problem, mind on the system.
 
 ### Tone
-- Confident without arrogance. This person is a PM2 at Microsoft building AI — that's real authority. Own it.
+- Confident without arrogance. This person is a PM2 at Microsoft building AI, that's real authority. Own it, but remember the audience is mixed (technical and non-technical). Don't sound like you're flexing on people who can't code.
 - Opinionated with evidence. Take a position, then back it with something built or observed firsthand.
 - Conversational. Write like explaining something to a sharp friend over coffee. No corporate speak.
 - Dry wit welcome. Never forced humor, never memes, never "hot take" framing.
@@ -123,8 +123,10 @@ Never end with: "Curious to hear your thoughts!" / "What do you think?" / "Let m
 
 LinkedIn does NOT render markdown. Keep this in mind:
 
+- **No em dashes**. Never use the — character. Use commas, periods, or parentheses instead. Em dashes feel literary and heavy on LinkedIn. Commas keep the tone conversational.
 - **Line breaks**: Use generously. Double-enter between paragraphs. LinkedIn compresses single line breaks.
-- **Bold text**: Use Unicode bold (e.g., 𝐭𝐡𝐢𝐬 𝐬𝐭𝐲𝐥𝐞) sparingly — for 1-2 key phrases or a strong closing line. Never as repeating section headers (that's the formulaic pattern to avoid).
+- **Breathing room after key sections**: Add an extra line break after the opening hook, after major story blocks, and before the closing. This creates visual breathing room on mobile and makes the post feel less like a wall of text.
+- **Bold text**: Use Unicode bold (e.g., 𝐭𝐡𝐢𝐬 𝐬𝐭𝐲𝐥𝐞) sparingly, for 1-2 key phrases or a strong closing line. Never as repeating section headers (that's the formulaic pattern to avoid).
 - **Italic text**: Use Unicode italic (e.g., 𝘵𝘩𝘪𝘴 𝘴𝘵𝘺𝘭𝘦) for quotes, emphasis on a single phrase, or rhetorical questions within the body.
 - **Plain text is default**. Most of the post should be unformatted. Formatting is seasoning, not the meal.
 - **Dashes (-)** for lists. Not bullet characters, not emojis as bullets.
@@ -236,6 +238,36 @@ Both sound reasonable. Only one consistently ships things people use.
 𝐒𝐭𝐚𝐫𝐭 𝐰𝐢𝐭𝐡 𝐭𝐡𝐞 𝐟𝐫𝐢𝐜𝐭𝐢𝐨𝐧, 𝐧𝐨𝐭 𝐭𝐡𝐞 𝐦𝐨𝐝𝐞𝐥.
 
 #AI #ProductManagement #ProductThinking #LLMs
+
+---
+
+### Example 4: Builder Dispatch (Shape B — The Build Log)
+
+Topic: Automation Lab, vibe-coding personal automations with GitHub Actions
+
+Note: This is the actual final posted version. Notice: no em dashes anywhere, extra spacing after the opening hook and between major blocks, mixed-audience-friendly language, "vibe coding" framing over "AI-assisted coding."
+
+---
+
+Not every personal automation needs an n8n subscription or a self-hosted server. Sometimes a simple GitHub Actions workflow coupled with an LLM API can achieve the goal.
+
+I vibe-coded two automations last weekend. Both solve problems that had been nagging me.
+
+First, AI news overload. There's so much happening every day that catching real signal through the noise became a chore. So I built a workflow that pulls from my trusted sources (TechCrunch, MIT Tech Review, The Verge, and a few others), deduplicates, ranks the top 10 stories, and emails me a clean digest with 3 bullet-point takeaways each. Hits my inbox every morning at 10 AM.
+
+Second, curiosity dying in routine. There are so many fascinating things to learn about. History, science, biology, economics, philosophy. But intentional learning time keeps getting swallowed by the week. So I built another workflow that every Saturday emails me a deep-dive on a random topic. A thousand-word explainer, a surprising fact, further reading links. If something hooks me, I go deeper. If not, I still learned something new before coffee.
+
+Tech stack (decided with the help of LLMs): Python, an LLM API call, Gmail, and GitHub Actions on a cron schedule.
+
+With vibe coding using the latest models, building things like this has become surprisingly accessible. It's easier to build today than at any point in history, and it's getting easier by the day.
+
+𝐓𝐡𝐞 𝐡𝐚𝐫𝐝𝐞𝐫 𝐩𝐚𝐫𝐭 𝐢𝐬 𝐢𝐝𝐞𝐧𝐭𝐢𝐟𝐲𝐢𝐧𝐠 𝐭𝐡𝐞 𝐩𝐫𝐨𝐛𝐥𝐞𝐦𝐬 𝐲𝐨𝐮 𝐰𝐚𝐧𝐭 𝐭𝐨 𝐬𝐨𝐥𝐯𝐞, 𝐚𝐧𝐝 𝐭𝐡𝐞𝐧 𝐣𝐮𝐬𝐭 𝐬𝐭𝐚𝐫𝐭𝐢𝐧𝐠.
+
+This week has been noticeably better. My mornings start with signal, not scrolling. My Saturdays have a spark of something new.
+
+Repo is open-source if you want to look around: [link]
+
+#AI #BuildInPublic #VibeCoding #ProductThinking
 
 ---
 
