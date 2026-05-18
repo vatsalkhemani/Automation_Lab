@@ -47,7 +47,7 @@ main.py           — orchestrator, --dry-run support
 | `GEMINI_API_KEY` | Google Gemini API key | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
 | `GMAIL_ADDRESS` | Gmail address to send from | Your Gmail (2FA required) |
 | `GMAIL_APP_PASSWORD` | Gmail App Password (not your regular password) | [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) |
-| `EMAIL_RECIPIENT` | Email address to receive the digest | Any email address |
+| `EMAIL_RECIPIENT` | Email address(es) to receive the digest. Comma-separate for multiple recipients (BCC'd) | Any email address(es) |
 
 Add these in **Settings > Secrets and variables > Actions** for GitHub Actions, or in a local `.env` file.
 

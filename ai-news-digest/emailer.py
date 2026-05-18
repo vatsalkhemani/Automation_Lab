@@ -106,7 +106,12 @@ def _build_html(digest: list[dict], date_str: str) -> str:
 
 
 def send_digest(digest: list[dict], date_str: str) -> bool:
-    """Send the digest email via Gmail SMTP. Returns True on success."""
+    """Send the digest email via Gmail SMTP. Returns True on success.
+
+    EMAIL_RECIPIENT may be a single address or a comma-separated list. When
+    multiple recipients are provided, they are delivered via BCC so addresses
+    are hidden from each other.
+    """
     if not all([GMAIL_ADDRESS, GMAIL_APP_PASSWORD, EMAIL_RECIPIENT]):
         logger.error("Gmail credentials or recipient not set. Cannot send email.")
         return False
@@ -115,12 +120,19 @@ def send_digest(digest: list[dict], date_str: str) -> bool:
         logger.warning("Empty digest -- not sending email.")
         return False
 
+    recipients = [r.strip() for r in EMAIL_RECIPIENT.split(",") if r.strip()]
+    if not recipients:
+        logger.error("EMAIL_RECIPIENT parsed to an empty list. Cannot send email.")
+        return False
+
     html_body = _build_html(digest, date_str)
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = f"AI News Digest -- {date_str}"
     msg["From"] = f"AI News Digest <{GMAIL_ADDRESS}>"
-    msg["To"] = EMAIL_RECIPIENT
+    # Address the message to the sender; everyone else is BCC'd via SMTP envelope
+    # so recipients can't see each other.
+    msg["To"] = GMAIL_ADDRESS
 
     plain_text = f"AI News Digest for {date_str}\n\n"
     for story in digest:
@@ -135,8 +147,8 @@ def send_digest(digest: list[dict], date_str: str) -> bool:
     try:
         with smtplib.SMTP_SSL(GMAIL_SMTP_SERVER, GMAIL_SMTP_PORT) as server:
             server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-            server.sendmail(GMAIL_ADDRESS, EMAIL_RECIPIENT, msg.as_string())
-        logger.info("Digest email sent to %s.", EMAIL_RECIPIENT)
+            server.sendmail(GMAIL_ADDRESS, recipients, msg.as_string())
+        logger.info("Digest email sent to %d recipient(s): %s", len(recipients), ", ".join(recipients))
         return True
     except smtplib.SMTPException as e:
         logger.error("Failed to send email: %s", e)
