@@ -5,7 +5,12 @@
       "WebFetch(domain:newsapi.org)",
       "Bash(pip install:*)",
       "Bash(set:*)",
-      "Bash(source:*)"
+      "Bash(source:*)",
+      "Bash(gh auth *)",
+      "Bash(python3 -c \"import sys; print\\(sys.version\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 main.py --dry-run)",
+      "Bash(python3 *)"
     ]
   }
 }
