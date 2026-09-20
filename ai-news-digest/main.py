@@ -68,6 +68,14 @@ def main():
         logger.warning("Summarization produced no results. Exiting.")
         return
 
+    # The LLM step degrades instead of failing, so a green run can still mean
+    # Gemini never worked. Say so plainly rather than letting it pass silently.
+    if any(story.get("fallback") for story in digest):
+        logger.error(
+            "DEGRADED: Gemini did not summarize -- sending raw article descriptions. "
+            "See the Gemini error above."
+        )
+
     # Step 6: Send or print
     if dry_run:
         logger.info("DRY RUN -- printing digest to stdout.")

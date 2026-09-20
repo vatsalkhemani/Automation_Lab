@@ -199,6 +199,8 @@ def send_email(article: dict, date_str: str) -> bool:
             server.sendmail(GMAIL_ADDRESS, EMAIL_RECIPIENT, msg.as_string())
         logger.info("Weekly learning email sent to %s.", EMAIL_RECIPIENT)
         return True
-    except smtplib.SMTPException as e:
-        logger.error("Failed to send email: %s", e)
+    except Exception as e:
+        # Not just SMTPException -- SSL and socket errors surface as OSError and
+        # would otherwise escape as an unhandled traceback.
+        logger.error("Failed to send email (%s): %s", type(e).__name__, e)
         return False

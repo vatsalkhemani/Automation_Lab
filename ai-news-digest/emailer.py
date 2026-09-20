@@ -128,7 +128,9 @@ def send_digest(digest: list[dict], date_str: str) -> bool:
     html_body = _build_html(digest, date_str)
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"AI News Digest -- {date_str}"
+    degraded = any(story.get("fallback") for story in digest)
+    prefix = "[NO SUMMARY] " if degraded else ""
+    msg["Subject"] = f"{prefix}AI News Digest -- {date_str}"
     msg["From"] = f"AI News Digest <{GMAIL_ADDRESS}>"
     # Address the message to the sender; everyone else is BCC'd via SMTP envelope
     # so recipients can't see each other.

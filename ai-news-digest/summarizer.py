@@ -47,9 +47,10 @@ def summarize(articles: list[dict]) -> list[dict]:
     Use Gemini to summarize and curate the top articles.
     Returns a list of dicts with: title, source, url, summary, category.
     """
-    if not GEMINI_API_KEY:
+    if not GEMINI_API_KEY.strip():
         logger.error(
-            "GEMINI_API_KEY not set. Returning raw articles without summarization."
+            "GEMINI_API_KEY is empty. Set it in GitHub Secrets (repo -> Settings -> "
+            "Secrets and variables -> Actions). Falling back to raw articles."
         )
         return _fallback_summaries(articles)
 
@@ -99,7 +100,7 @@ def summarize(articles: list[dict]) -> list[dict]:
         logger.info("Gemini produced %d digest entries.", len(digest))
         return digest
     except Exception as e:
-        logger.error("Gemini API call failed: %s", e)
+        logger.error("Gemini API call failed (%s): %s", type(e).__name__, e)
         return _fallback_summaries(articles_to_send)
 
 
@@ -160,6 +161,7 @@ def _fallback_summaries(articles: list[dict]) -> list[dict]:
             "url": a["url"],
             "takeaways": [a.get("description", "No summary available.")],
             "category": "Other",
+            "fallback": True,
         }
         for a in articles[:10]
     ]

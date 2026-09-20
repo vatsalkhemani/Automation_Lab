@@ -56,8 +56,11 @@ def generate_topic(category: str) -> dict | None:
     Returns a dict with: topic, category, hook, sections, surprising_fact, further_reading.
     Returns None on failure.
     """
-    if not GEMINI_API_KEY:
-        logger.error("GEMINI_API_KEY not set. Cannot generate content.")
+    if not GEMINI_API_KEY.strip():
+        logger.error(
+            "GEMINI_API_KEY is empty. Set it in GitHub Secrets (repo -> Settings -> "
+            "Secrets and variables -> Actions)."
+        )
         return None
 
     user_prompt = f"Category: {category}\n\nPick a big, mainstream topic within this category — something important that a well-rounded person should understand. Write a clear, conversational explainer."
@@ -75,18 +78,35 @@ def generate_topic(category: str) -> dict | None:
             },
         )
 
+        finish_reason = None
+        if response.candidates:
+            finish_reason = response.candidates[0].finish_reason
+
+        if response.text is None:
+            logger.error(
+                "Gemini returned no text (finish_reason=%s, prompt_feedback=%s). "
+                "Usually a safety block or a truncated response.",
+                finish_reason,
+                getattr(response, "prompt_feedback", None),
+            )
+            return None
+
         response_text = response.text.strip()
         article = _parse_json_response(response_text)
 
         if article is None:
-            logger.error("Could not parse Gemini response.")
+            logger.error(
+                "Could not parse Gemini response (finish_reason=%s). First 500 chars: %s",
+                finish_reason,
+                response_text[:500],
+            )
             return None
 
         logger.info("Generated article: '%s' in category '%s'.", article.get("topic"), article.get("category"))
         return article
 
     except Exception as e:
-        logger.error("Gemini API call failed: %s", e)
+        logger.error("Gemini API call failed (%s): %s", type(e).__name__, e)
         return None
 
 
@@ -119,6 +139,19 @@ def _parse_json_response(text: str) -> dict | None:
             return result
     except json.JSONDecodeError:
         pass
+
+    # Attempt 3: truncated response -- close the object after the last complete field
+    last_quote = json_str.rfind('"')
+    if last_quote > 0:
+        truncated = json_str[: last_quote + 1] + "}"
+        truncated = re.sub(r",\s*\}", "}", truncated)
+        try:
+            result = json.loads(truncated)
+            if isinstance(result, dict) and result.get("topic"):
+                logger.info("Salvaged article from truncated JSON.")
+                return result
+        except json.JSONDecodeError:
+            pass
 
     logger.error("All JSON parse attempts failed.")
     return None

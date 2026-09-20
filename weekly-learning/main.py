@@ -29,16 +29,26 @@ def main():
 
     logger.info("=== Weekly Learning -- %s ===", today)
 
-    # Step 1: Pick a random category
-    category = random.choice(TOPIC_CATEGORIES)
-    logger.info("Selected category: %s", category)
+    # Step 1 + 2: Pick a category and generate the article. Retry on a different
+    # category if Gemini fails -- a single category can get safety-blocked.
+    categories = random.sample(TOPIC_CATEGORIES, k=min(3, len(TOPIC_CATEGORIES)))
+    article = None
 
-    # Step 2: Generate deep-dive article
-    logger.info("Generating article with Gemini...")
-    article = generate_topic(category)
+    for attempt, category in enumerate(categories, start=1):
+        logger.info("Attempt %d/%d -- category: %s", attempt, len(categories), category)
+        logger.info("Generating article with Gemini...")
+        article = generate_topic(category)
+        if article:
+            break
+        logger.warning("Generation failed for '%s'.", category)
 
     if not article:
-        logger.error("Failed to generate article. Exiting.")
+        logger.error(
+            "Failed to generate an article after %d attempts. "
+            "Check the Gemini errors above -- most often an invalid or missing "
+            "GEMINI_API_KEY in GitHub Secrets.",
+            len(categories),
+        )
         sys.exit(1)
 
     logger.info("Topic: %s", article.get("topic", "Unknown"))
