@@ -1,10 +1,12 @@
 import os
 
 # --- Secrets (from environment / GitHub Secrets) ---
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
-GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "")
-GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
-EMAIL_RECIPIENT = os.environ.get("EMAIL_RECIPIENT", "")
+# .strip() guards against a trailing newline from pasting into the GitHub
+# Secrets UI -- SMTP rejects a newline in RCPT TO outright.
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "").strip()
+GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+EMAIL_RECIPIENT = os.environ.get("EMAIL_RECIPIENT", "").strip()
 
 # --- Gemini settings ---
 GEMINI_MODEL = "gemini-2.5-flash"

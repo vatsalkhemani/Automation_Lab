@@ -2,11 +2,13 @@ import os
 from datetime import datetime, timedelta, timezone
 
 # --- Secrets (from environment / GitHub Secrets) ---
-NEWSAPI_KEY = os.environ.get("NEWSAPI_KEY", "")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
-GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "")
-GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
-EMAIL_RECIPIENT = os.environ.get("EMAIL_RECIPIENT", "")
+# .strip() guards against a trailing newline from pasting into the GitHub
+# Secrets UI -- SMTP rejects a newline in RCPT TO outright.
+NEWSAPI_KEY = os.environ.get("NEWSAPI_KEY", "").strip()
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "").strip()
+GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+EMAIL_RECIPIENT = os.environ.get("EMAIL_RECIPIENT", "").strip()
 
 # --- NewsAPI settings ---
 NEWSAPI_BASE_URL = "https://newsapi.org/v2/everything"

@@ -161,9 +161,19 @@ def _build_html(article: dict, date_str: str) -> str:
 
 
 def send_email(article: dict, date_str: str) -> bool:
-    """Send the weekly learning email via Gmail SMTP. Returns True on success."""
+    """
+    Send the weekly learning email via Gmail SMTP. Returns True on success.
+
+    EMAIL_RECIPIENT may be a single address or a comma-separated list. Each
+    address is stripped -- an unstripped newline makes SMTP reject RCPT TO.
+    """
     if not all([GMAIL_ADDRESS, GMAIL_APP_PASSWORD, EMAIL_RECIPIENT]):
         logger.error("Gmail credentials or recipient not set. Cannot send email.")
+        return False
+
+    recipients = [r.strip() for r in EMAIL_RECIPIENT.split(",") if r.strip()]
+    if not recipients:
+        logger.error("EMAIL_RECIPIENT parsed to an empty list. Cannot send email.")
         return False
 
     if not article:
@@ -175,7 +185,7 @@ def send_email(article: dict, date_str: str) -> bool:
     msg = MIMEMultipart("alternative")
     msg["Subject"] = f"Weekly Learning: {article.get('topic', 'Untitled')} -- {date_str}"
     msg["From"] = f"Weekly Learning <{GMAIL_ADDRESS}>"
-    msg["To"] = EMAIL_RECIPIENT
+    msg["To"] = ", ".join(recipients)
 
     # Plain-text fallback
     plain_text = f"Weekly Learning -- {date_str}\n"
@@ -196,8 +206,12 @@ def send_email(article: dict, date_str: str) -> bool:
     try:
         with smtplib.SMTP_SSL(GMAIL_SMTP_SERVER, GMAIL_SMTP_PORT) as server:
             server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-            server.sendmail(GMAIL_ADDRESS, EMAIL_RECIPIENT, msg.as_string())
-        logger.info("Weekly learning email sent to %s.", EMAIL_RECIPIENT)
+            server.sendmail(GMAIL_ADDRESS, recipients, msg.as_string())
+        logger.info(
+            "Weekly learning email sent to %d recipient(s): %s",
+            len(recipients),
+            ", ".join(recipients),
+        )
         return True
     except Exception as e:
         # Not just SMTPException -- SSL and socket errors surface as OSError and
